@@ -10,6 +10,7 @@ array_shift($options);
 
 if (($key = in_array('--data-size', $options)) !== false) {
     $dataSize = substr($options[$key], 12);
+    unset($options[$key]);
 } else {
     $dataSize = 1000000;
 }
@@ -20,18 +21,23 @@ $tests = [
     "collections" => \App\Tests\Collections::class,
 ];
 
+/**
+ * The function that is used by tests to perform a simple operation
+ *
+ * $v int Reference to the number to transform
+**/
 function addOne(&$v)
 {
     $v += 1;
 }
 
-
-foreach ($tests as $test => $class) {
-    if (!in_array($test, $options)) {
-        unset($tests[$test]);
+if(count($options) > 0) {
+    foreach ($tests as $test => $class) {
+        if (!in_array($test, $options)) {
+            unset($tests[$test]);
+        }
     }
 }
-// exec('system_profiler SPHardwareDataType', $environmentInfo);
 
 $profiler = Profiler::Factory();
 
