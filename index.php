@@ -1,0 +1,55 @@
+<?php
+
+use App\Helpers\CList;
+use Profiler\Profiler;
+
+require "vendor/autoload.php";
+
+$options = $argv;
+array_shift($options);
+
+if (($key = in_array('--data-size', $options)) !== false) {
+    $dataSize = substr($options[$key], 12);
+} else {
+    $dataSize = 1000000;
+}
+
+$tests = [
+    "loops"       => \App\Tests\Loops::class,
+    "arrays"      => \App\Tests\Arrays::class,
+    "collections" => \App\Tests\Collections::class,
+];
+
+function addOne(&$v)
+{
+    $v += 1;
+}
+
+
+foreach ($tests as $test => $class) {
+    if (!in_array($test, $options)) {
+        unset($tests[$test]);
+    }
+}
+// exec('system_profiler SPHardwareDataType', $environmentInfo);
+
+$profiler = Profiler::Factory();
+
+echo "Test Environment:\n";
+$list = new CList();
+$list->addRow("Operating System", $profiler->os . ' - ' . $profiler->os_version);
+$list->addRow("CPU", $profiler->cpu_model . ' - ' . $profiler->cpu_speed);
+$list->addRow("Memory", $profiler->total_memory);
+$list->display();
+
+echo "Test data sample size: $dataSize\n";
+
+if (count($tests) < 1) {
+    echo "No tests to run.\n";
+}
+
+foreach ($tests as $key => $test) {
+    echo "Running Test Profile: " . $key . PHP_EOL;
+    (new $test())->run()->display();
+    echo PHP_EOL;
+}

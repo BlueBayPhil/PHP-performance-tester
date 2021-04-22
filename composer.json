@@ -1,0 +1,20 @@
+{
+  "name": "phil/php-performance-tests",
+  "description": "",
+  "authors": [
+    {
+      "name": "Phil Davies",
+      "email": "phil.davies@bluebaytravel.co.uk"
+    }
+  ],
+  "require": {
+    "illuminate/collections": "^8.38",
+    "phplucidframe/console-table": "^1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "Profiler\\": "Profiler/src/"
+    }
+  }
+}
