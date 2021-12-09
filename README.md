@@ -7,7 +7,7 @@ If you wish to run this on a system other than MacOS you will need to create a n
 Profiler is responsible for gathering the system information of the device the tests are running on.
 
 ## Installation
-1. Install using composer - `composer create-project bluebayphil/php-performance-tester`
+1. Clone this repository
 2. Install requirements - `composer install`
 
 ## Running
